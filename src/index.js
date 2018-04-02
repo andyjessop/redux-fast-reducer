@@ -1,9 +1,25 @@
-export default function (store, mapState) {
-  this.set(mapState(store.getState()));
+export default (reducers) => {
+  const r = reducers || {};
 
-  const unobserveState = store.subscribe(() => {
-    this.set(mapState(store.getState()));
-  });
+  const addReducer = (namespace, reducer) => {
+    r[namespace] = reducer;
+  };
 
-  this.on('destroy', () => unobserveState());
-}
+  const dynamicReducer = (state = {}, action) => {
+    const mod = action.substr(0, action.indexOf('/'));
+
+    state[mod] = r[mod](state[mod], action);
+
+    return state;
+  };
+
+  const removeReducer = (namespace) => {
+    delete r[namespace];
+  };
+
+  return {
+    addReducer,
+    removeReducer,
+    dynamicReducer,
+  };
+};

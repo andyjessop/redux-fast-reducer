@@ -1,38 +1,37 @@
-# redux-svelte
-This is a very small package (just 200B gzipped) to join Redux and Svelte, simply and delcaratively. It subscribes to your Redux store and updates mapped data only when it changes. It's very efficient, and very fast.
+# redux-fast-reducer
+Direct mapping for namespaced reducers. Avoids having to pass actions through the whole reducer chain, instead mapping directly to the relevant reducer.
 
 ### Installation
 
 ```
-npm install --save redux-svelte
+npm install --save redux-fast-reducer
 ```
 
 ### Usage
 
-In your Svelte component:
-```html
-<div>{{ a }}{{ b }}{{ c }}</div>
+```js
+import createFastReducer from 'redux-fast-reducer';
 
-<script>
-import observeState from 'redux-svelte';
+const moduleA = (state = {}, action) = { ... };
+const moduleB = (state = {}, action) = { ... };
 
-export default {
-  // This MUST be set (either here on in the root component)
-  // to make Svelte efficiently update only what has changed.
-  immutable: true,
+const reducers = {
+  moduleA,
+  moduleB
+};
 
-  oncreate() {
-    this.observeState(store, state => ({
-      a: state.a,
-      b: state.mod.b, // Mapping to namespaced reducers
-      c: myReselectSelector(state) // Works with Reselect selectors
-    }));
-  },
+const fastReducer = createFastReducer(reducers);
 
-  methods {
-    observeState,
-  },
-}
-</script>
+const store = createStore(fastReducer);
 ```
-When the state changes in Redux, the Svelte `data` state is updated. This works by comparing the object reference and updating only what has changed.
+
+Then, when firing your actions, you MUST namespace them, like this:
+
+```js
+store.dispatch({
+  type: 'moduleA/my-action-type',
+  payload,
+});
+```
+
+This action will then be directed straight to the relevant reducer for processing.

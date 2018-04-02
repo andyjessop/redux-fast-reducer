@@ -1,25 +1,24 @@
 {
-  "name": "redux-svelte",
-  "version": "0.1.1",
-  "description": "A declarative observer of Redux stores for Svelte components",
+  "name": "redux-fast-reducer",
+  "version": "0.0.1",
+  "description": "Direct mapping to Redux reducers",
   "main": "src/index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andyjessop/redux-svelte.git"
+    "url": "git+https://github.com/andyjessop/redux-fast-reducer.git"
   },
   "keywords": [
-    "Svelte",
     "Redux"
   ],
   "author": "Andy Jessop",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/andyjessop/redux-svelte/issues"
+    "url": "https://github.com/andyjessop/redux-fast-reducer/issues"
   },
-  "homepage": "https://github.com/andyjessop/redux-svelte#readme",
+  "homepage": "https://github.com/andyjessop/redux-fast-reducer#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.3",
